@@ -1,0 +1,107 @@
+version: '3'
+services:
+    php:
+        image: atillay/lemp-php:7.3 # Also available : atillay/lemp-php:7.2
+        env_file:
+            - .env
+        volumes:
+            - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+            - .:/var/www:cached
+        networks:
+            - blockchain-network
+
+        links:
+            - node1:node1
+
+    nginx:
+        image: atillay/lemp-nginx
+        networks:
+            - blockchain-network
+        ports:
+            - ${SERVER_PORT}:80
+        volumes:
+            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./log:/var/log/nginx
+            - ./public:/var/www/public
+
+        links:
+            - node1:node1
+
+    mysql:
+        image: mysql:5.7
+        environment:
+            - MYSQL_ROOT_PASSWORD=StrongPassword
+            - MYSQL_DATABASE=${DB_NAME}
+            - MYSQL_USER=${DB_USER}
+            - MYSQL_PASSWORD=${DB_PASSWORD}
+        volumes:
+            - ./docker/mysql/custom.cnf:/etc/mysql/conf.d/custom.cnf
+            - ./docker/db:/var/lib/mysql:cached
+        networks:
+            - blockchain-network
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        networks:
+            - blockchain-network
+        ports:
+            - ${PMA_PORT}:80
+        environment:
+            - PMA_HOST=${DB_HOST}
+
+    maildev:
+        image: djfarrelly/maildev
+        networks:
+            - blockchain-network
+        ports:
+            - ${MAILDEV_PORT}:80
+
+    node1:
+        build:
+            context: ./.docker/app/
+            dockerfile: Dockerfile
+        volumes:
+            - ./app/:/naivechain
+        networks:
+            - blockchain-network
+        ports:
+            - "3001:3001"
+
+    node2:
+        environment:
+            - PEERS=ws://node1:6001
+        build:
+            context: ./.docker/app/
+            dockerfile: Dockerfile
+        volumes:
+            - ./app/:/naivechain
+        networks:
+            - blockchain-network
+        ports:
+            - "3002:3001"
+        links:
+            - node1:node1
+
+    node3:
+        environment:
+            - PEERS=ws://node2:6001
+        build:
+            context: ./.docker/app/
+            dockerfile: Dockerfile
+        volumes:
+            - ./app/:/naivechain
+        networks:
+            - blockchain-network
+        ports:
+            - "3003:3001"
+        links:
+            - node2:node2
+
+
+networks:
+    blockchain-network:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 192.168.10.0/24
