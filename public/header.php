@@ -2,7 +2,9 @@
 <head>
     <title>File sharing</title>
     <link rel="icon" href="/img/bc-logo.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <header class="header">
     <div class="header__logo">
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -62,45 +64,13 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
         </svg>
     </div>
 
-<!--    <nav class="header__nav">-->
-<!--        <ul class="header__nav-list">-->
-<!--            <li class="header__nav-item">-->
-<!--                <a class="header__nav-link" href="">Add</a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </nav>-->
+    <nav class="header__nav">
+        <ul class="header__nav-list">
+            <li class="header__nav-item">
+                <a class="header__nav-link j-open" href="#" data-popup="add-file">Add file</a>
+            </li>
+        </ul>
+    </nav>
 </header>
-
-<style>
-    .header {
-        padding: 10px 15px;
-    }
-
-    .header__logo {
-        max-width: 200px;
-        max-height: 100px;
-    }
-
-    .header__logo svg {
-        width: auto;
-        height: 100px;
-    }
-
-    .page {
-        padding: 0 15px;
-    }
-
-    table {
-        border-collapse: collapse;
-    }
-
-    thead {
-        border-bottom: 1px solid black;
-    }
-
-    th, td {
-        padding: 2px 5px;
-    }
-</style>
 
 <body>

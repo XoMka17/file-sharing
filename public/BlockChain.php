@@ -18,7 +18,7 @@ class BlockChain
     }
 
 
-    public function addFile($file_content, $user) {
+    public function addFile($file_name, $file_content, $user) {
 
         $file_content = bin2hex($file_content);
         $id = $this->generateID();
@@ -29,20 +29,20 @@ class BlockChain
 
             $block_content = $id . $block_content;
 
-            $this->addBlock($block_content,$user);
+            $this->addBlock($file_name, $block_content, $user);
         }
     }
 
     /**
      * @param $data
      */
-    public function addBlock($data, $user) {
+    public function addBlock($file_name, $data, $user) {
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, $this->serverUrl . '/mineBlock');
         curl_setopt($curl, CURLOPT_PORT, 3001);
         curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, '{"data" : "' . $data . '", "user" : "'. $user . '"}');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, '{"data" : "' . $data . '", "fileName" : "'. $file_name . '", "user" : "'. $user . '"}');
 
         $headers = array();
         $headers[] = 'Content-Type: application/json';
@@ -62,6 +62,7 @@ class BlockChain
     public function getFile($id) {
 
         $file = '';
+        $file_name = '';
         $blocks = $this->getBlocks();
 
         if($blocks) {
@@ -71,6 +72,7 @@ class BlockChain
                 $block_id = $this->getID($block->data);
 
                 if($id == $block_id) {
+                    $file_name = $block->fileName;
                     $file .= substr($block->data, $this->idLength);
                 }
             }
@@ -78,7 +80,7 @@ class BlockChain
 
         $file = hex2bin($file);
 
-        return $file;
+        return ['fileName' => $file_name, 'fileData' => $file];
     }
 
     /**

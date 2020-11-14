@@ -1,0 +1,169 @@
+
+
+/**
+ ** Tags
+ **/
+
+table {
+  border-collapse: collapse;
+}
+
+thead {
+  border-bottom: 1px solid black;
+}
+
+th, td {
+  padding: 2px 5px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/**
+ ** HEADER
+ **/
+
+.header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  padding: 10px 15px;
+
+  &__logo {
+    max-width: 200px;
+    max-height: 100px;
+
+    svg {
+      width: auto;
+      height: 100px;
+    }
+  }
+
+  &__nav {
+    margin-left: 30px;
+
+  }
+
+  &__nav-list {
+    display: flex;
+    align-items: center;
+  }
+
+  &__nav-item:not(:last-child) {
+    margin-right: 15px;
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 7px 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+
+    font-weight: 700;
+    color: black;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+
+/**
+ ** Page
+ **/
+
+.page {
+  padding: 0 15px;
+}
+
+
+/**
+ ** Popup
+ **/
+
+.popup {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: none;
+
+  &.is-opened {
+    display: block;
+  }
+
+  &__container {
+    z-index: 1;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+    min-width: 500px;
+    box-sizing: border-box;
+    padding: 80px;
+
+    background: white;
+  }
+
+  &__close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+
+    width: 24px;
+    height: 24px;
+    opacity: 0.3;
+
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+    &:before, &:after {
+      position: absolute;
+      left: 15px;
+      content: ' ';
+      height: 24px;
+      width: 2px;
+      background-color: #333;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__content {
+
+  }
+
+  &__bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    background: rgba(0,0,0,0.6);
+  }
+}

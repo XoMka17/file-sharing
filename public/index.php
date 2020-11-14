@@ -13,6 +13,7 @@ if($blocks) {
         <th>#</th>
         <th>Timestamp</th>
         <th>User</th>
+        <th>File Name</th>
         <th>Previous Hash</th>
         <th>Hash</th>
         <th>Action</th>
@@ -37,6 +38,7 @@ if($blocks) {
         echo '<td>' . $blocks[$i]->index . '</td>';
         echo '<td>' . date('H:i:s d-m-Y ',$blocks[$i]->timestamp) . '</td>';
         echo '<td>' . $blocks[$i]->user . '</td>';
+        echo '<td>' . $blocks[$i]->fileName . '</td>';
 
         // !Todo Нужна дата на час вперёд (main.js line 102)
         echo '<td>' . $blocks[$i]->previousHash . '</td>';
@@ -57,5 +59,33 @@ if($blocks) {
 
 ?>
 
+<div class="popup" id="add-file">
+    <div class="popup__container">
+        <div class="popup__close j-close"></div>
+
+        <div class="popup__content">
+            <div class="popup_title">
+                Choose file
+            </div>
+
+            <div class="popup__upload">
+                <form enctype="multipart/form-data" action="add.php" method="POST">
+                    <!-- Поле MAX_FILE_SIZE должно быть указано до поля загрузки файла -->
+<!--                    <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />-->
+                    <!-- Название элемента input определяет имя в массиве $_FILES -->
+                    <input name="userfile" type="file" />
+                    <input type="submit" value="Send file" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup__bg j-close"></div>
+</div>
+
+<script src="./js/jquery.js"></script>
+
+<script src="./js/popup.js"></script>
+<script src="./js/add_file.js"></script>
 </body>
 </html>
