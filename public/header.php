@@ -1,3 +1,7 @@
+<?php
+include_once 'session.php';
+?>
+
 <html>
 <head>
     <title>File sharing</title>
@@ -68,6 +72,9 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
         <ul class="header__nav-list">
             <li class="header__nav-item">
                 <a class="header__nav-link j-open" href="#" data-popup="add-file">Add file</a>
+            </li>
+            <li class="header__nav-item">
+                <a class="header__nav-link" href="logout.php">Logout</a>
             </li>
         </ul>
     </nav>

@@ -1,6 +1,5 @@
 <?php
 
-
 class BlockChain
 {
     private $serverUrl;
@@ -9,6 +8,7 @@ class BlockChain
 
     /**
      * BlockChain constructor.
+     *
      */
     public function __construct() {
         $this->serverUrl = 'http://192.168.10.1';

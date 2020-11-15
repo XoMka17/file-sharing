@@ -1,5 +1,6 @@
 <?php
 
+include_once 'session.php';
 require_once 'BlockChain.php';
 
 if(!isset($_GET['block'])) {
