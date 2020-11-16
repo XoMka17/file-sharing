@@ -9,8 +9,7 @@ $rezult = null;
 if(isset($_POST['name']) && isset($_POST['password']) && isset($_POST['email'])) {
     $rezult = $userManager->create_user($_POST['name'],$_POST['password'],$_POST['email']);
 }
-
-if(isset($_POST['name'])) {
+elseif(isset($_POST['name'])) {
     $rezult = false;
 }
 ?>

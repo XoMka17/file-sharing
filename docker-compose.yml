@@ -97,7 +97,6 @@ services:
         links:
             - node2:node2
 
-
 networks:
     blockchain-network:
         driver: bridge
