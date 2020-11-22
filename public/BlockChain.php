@@ -12,22 +12,27 @@ class BlockChain
         $this->serverUrl = 'http://192.168.10.1';
     }
 
-    public function addFile($file_name, $file_content, $user_id) {
+    public function addFile($file_name, $file_content, $signature, $user_id) {
+
+        var_dump($file_name);
+        var_dump($file_content);
+        var_dump($signature);
+
         $block_content = bin2hex($file_content);
 
-        $this->addBlock($file_name, $block_content, $user_id);
+        $this->addBlock($file_name, $block_content, $signature, $user_id);
     }
 
     /**
      * @param $data
      */
-    public function addBlock($file_name, $data, $user_id) {
+    public function addBlock($file_name, $data, $signature, $user_id) {
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, $this->serverUrl . '/mineBlock');
         curl_setopt($curl, CURLOPT_PORT, 3001);
         curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, '{"data" : "' . $data . '", "fileName" : "'. $file_name . '", "user" : "'. $user_id . '"}');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, '{"data" : "' . $data . '", "fileName" : "'. $file_name . '", "signature" : "'. $signature . '", "user" : "'. $user_id . '"}');
 
         $headers = array();
         $headers[] = 'Content-Type: application/json';

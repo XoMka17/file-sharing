@@ -14,9 +14,6 @@ include_once 'session.php';
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
              width="470.000000pt" height="463.000000pt" viewBox="0 0 470.000000 463.000000"
              preserveAspectRatio="xMidYMid meet">
-            <metadata>
-                Created by potrace 1.16, written by Peter Selinger 2001-2019
-            </metadata>
             <g transform="translate(0.000000,463.000000) scale(0.100000,-0.100000)"
                fill="#000000" stroke="none">
                 <path d="M1967 4275 l-337 -225 0 -278 c0 -297 1 -302 50 -302 48 0 50 9 50
@@ -72,6 +69,9 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
         <ul class="header__nav-list">
             <li class="header__nav-item">
                 <a class="header__nav-link j-open" href="#" data-popup="add-file">Add file</a>
+            </li>
+            <li class="header__nav-item">
+                <a class="header__nav-link j-save-keys" href="#">Save Keys</a>
             </li>
             <li class="header__nav-item">
                 <a class="header__nav-link" href="logout.php">Logout</a>

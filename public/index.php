@@ -15,6 +15,7 @@ if($blocks) {
         <th>Timestamp</th>
         <th>User</th>
         <th>File Name</th>
+        <th>Signature</th>
         <th>Previous Hash</th>
         <th>Hash</th>
         <th>Action</th>
@@ -43,6 +44,7 @@ if($blocks) {
         }
 
         echo '<td>' . $blocks[$i]->fileName . '</td>';
+        echo '<td>' . $blocks[$i]->signature . '</td>';
 
         // !Todo Нужна дата на час вперёд (main.js line 102)
         echo '<td>' . $blocks[$i]->previousHash . '</td>';
@@ -78,12 +80,19 @@ if($blocks) {
             </div>
 
             <div class="popup__upload">
-                <form enctype="multipart/form-data" action="add.php" method="POST">
-                    <!-- Поле MAX_FILE_SIZE должно быть указано до поля загрузки файла -->
-<!--                    <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />-->
-                    <!-- Название элемента input определяет имя в массиве $_FILES -->
-                    <input name="userfile" type="file" />
-                    <input type="submit" value="Send file" />
+                <form id="form-upload" class="file-form j-add-form" name="form_upload" enctype="multipart/form-data" action="add.php" method="POST">
+                    <div class="file-form__upload-file j-user-file-container">
+                        <!-- Поле MAX_FILE_SIZE должно быть указано до поля загрузки файла -->
+                        <!--                    <input type="hidden" name="MAX_FILE_SIZE" value="30000000" />-->
+                        <!-- Название элемента input определяет имя в массиве $_FILES -->
+                        <input id="user-file" class="file-form__input j-user-file" name="user_file" type="file" />
+                    </div>
+
+                    <div class="file-form__upload-key j-user-key-container">
+                        <input id="user-key" class="file-form__input j-user-key" name="user_key" type="file" />
+                        <input class="file-form__submit j-submit-add" type="submit" value="Send file" />
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -95,6 +104,8 @@ if($blocks) {
 <script src="./js/jquery.js"></script>
 
 <script src="./js/popup.js"></script>
+
+<script src="./js/digital_signature.js"></script>
 <script src="./js/add_file.js"></script>
 </body>
 </html>

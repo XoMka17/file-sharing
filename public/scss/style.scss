@@ -167,3 +167,24 @@ a {
     background: rgba(0,0,0,0.6);
   }
 }
+
+/**
+  Form for upload file
+ */
+
+.file-form {
+
+  &__upload-file {
+
+  }
+
+  &__upload-key {
+    display: block;
+
+    &.is-active {
+      display: block;
+    }
+
+  }
+}
+
