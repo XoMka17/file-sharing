@@ -6,10 +6,15 @@ $userManager = new UserManager();
 
 $rezult = null;
 
-if(isset($_POST['name']) && isset($_POST['password']) && isset($_POST['email'])) {
-    $rezult = $userManager->create_user($_POST['name'],$_POST['password'],$_POST['email']);
+if(isset($_POST['login']) && isset($_POST['password']) && isset($_POST['password-second']) && isset($_POST['name']) && isset($_POST['email'])) {
+    if($_POST['password'] !== $_POST['password-second']) {
+        $rezult = 'password';
+    }
+    else {
+        $rezult = $userManager->create_user($_POST['login'],$_POST['password'],$_POST['name'],$_POST['email']);
+    }
 }
-elseif(isset($_POST['name'])) {
+elseif(isset($_POST['login'])) {
     $rezult = false;
 }
 ?>
@@ -88,8 +93,10 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
             </div>
 
             <form method="post" action="#" class="login__form">
-                <input type="text" name="name" placeholder="Name" required>
+                <input type="text" name="login" placeholder="Login" required>
                 <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password-second" placeholder="Repeat password" required>
+                <input type="text" name="name" placeholder="Name" required>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="submit" value="Sing up">
             </form>
@@ -104,6 +111,9 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
             else if($rezult === false) {
                 echo '<div style="color: red">Please, change Name</div>';
             }
+            else if($rezult === 'password') {
+                echo '<div style="color: red">Passwords do not match</div>';
+            }
             ?>
 
             <div class="login__separator">OR</div>
@@ -111,7 +121,6 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
             <a class="login__singup" href="login.php">Login</a>
         </div>
     </div>
-
 </div>
 
 </body>

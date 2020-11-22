@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if($_SESSION['login'] === 1) {
+if($_SESSION['logged'] === true) {
     header("Location: /");
 }
 
@@ -12,18 +12,18 @@ $userManager = new UserManager();
 
 $rezult = null;
 
-if(isset($_POST['name']) && isset($_POST['password'])) {
-    $rezult = $userManager->login($_POST['name'],$_POST['password']);
+if(isset($_POST['login']) && isset($_POST['password'])) {
+    $rezult = $userManager->login($_POST['login'],$_POST['password']);
 
     if($rezult === true) {
-        $_SESSION['login'] = 1;
-        $_SESSION['user_name'] = $_POST['name'];
+        $_SESSION['logged'] = true;
+        $_SESSION['user_id'] = $userManager->getUserID();
 
         header("Location: /");
     }
     else {
-        unset($_SESSION['login']);
-        unset($_SESSION['user_name']);
+        unset($_SESSION['logged']);
+        unset($_SESSION['user_id']);
     }
 }
 ?>
@@ -102,7 +102,7 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
             </div>
 
             <form method="post" action="#" class="login__form">
-                <input type="text" name="name" placeholder="Name" required>
+                <input type="text" name="login" placeholder="Login" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="submit" value="Login">
             </form>

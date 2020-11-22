@@ -1,9 +1,10 @@
 <?php include "header.php"; ?>
 
 <?php
+require_once 'UserManager.php';
 require_once 'BlockChain.php';
-$BlockChain = new BlockChain();
 
+$BlockChain = new BlockChain();
 $blocks = $BlockChain->getBlocks();
 
 if($blocks) {
@@ -21,23 +22,26 @@ if($blocks) {
 
     echo '<tbody>';
 
+    $UserManager = new UserManager();
     $background_colors = ['#ffffff','#eeeeeeaa'];
-    $lastID = '';
-    $is_changed_block = true;
-    $files_counter = 0;
 
     for($i = count($blocks) - 1; $i >= 0; $i--) {
-        if($lastID != $BlockChain->getID($blocks[$i]->data)) {
-            $current_background_color = $background_colors[$files_counter%2];
-            $is_changed_block = true;
-            $files_counter++;
-        }
 
-        echo '<tr style="background: ' . $current_background_color . '">';
+        echo '<tr style="background: ' . $background_colors[$i%2] . '">';
 
         echo '<td>' . $blocks[$i]->index . '</td>';
         echo '<td>' . date('H:i:s d-m-Y ',$blocks[$i]->timestamp) . '</td>';
-        echo '<td>' . $blocks[$i]->user . '</td>';
+
+        if(is_numeric($blocks[$i]->user)) {
+
+            if($blocks[$i]->user == 0) {
+                echo '<td>genesis</td>';
+            }
+            else {
+                echo '<td>' . $UserManager->get_user_by_id($blocks[$i]->user)['name'] . '</td>';
+            }
+        }
+
         echo '<td>' . $blocks[$i]->fileName . '</td>';
 
         // !Todo Нужна дата на час вперёд (main.js line 102)
@@ -45,7 +49,7 @@ if($blocks) {
 //        echo '<td>' . $blocks[$i]->data . '</td>';
         echo '<td>' . $blocks[$i]->hash . '</td>';
         echo '<td>';
-        if($is_changed_block && $i != 0) {
+        if($i != 0) {
             echo '<a href="./get.php?block=' . $i . '" title="download file">
 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 26 26" style="enable-background:new 0 0 26 26;" xml:space="preserve" width="20px">
 	<g>
@@ -57,9 +61,6 @@ if($blocks) {
 </a>';
         }
         echo '</td>';
-
-        $lastID = $BlockChain->getID($blocks[$i]->data);
-        $is_changed_block = false;
         echo '</tr>';
     }
     echo '</tbody>';

@@ -16,4 +16,3 @@ header('Content-Disposition: attachment; filename="'.$file['fileName'].'"');
 header("Content-Length: " . strlen($file['fileData']));
 echo $file['fileData'];
 exit;
-?>
