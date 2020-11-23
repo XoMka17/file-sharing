@@ -7,15 +7,18 @@ $userManager = new UserManager();
 $rezult = null;
 
 if(isset($_POST['login']) && isset($_POST['password']) && isset($_POST['password-second']) && isset($_POST['name']) && isset($_POST['email'])) {
+
+    $key_public = file_get_contents($_FILES['user_file']['tmp_name']);
+
     if($_POST['password'] !== $_POST['password-second']) {
         $rezult = 'password';
     }
-    else {
-        $rezult = $userManager->create_user($_POST['login'],$_POST['password'],$_POST['name'],$_POST['email']);
+    elseif (!$key_public) {
+        $rezult = 'key';
     }
-}
-elseif(isset($_POST['login'])) {
-    $rezult = false;
+    else {
+        $rezult = $userManager->createUser($_POST['login'],$_POST['password'],$_POST['name'],$_POST['email'], $key_public);
+    }
 }
 ?>
 
@@ -92,12 +95,16 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
                 </svg>
             </div>
 
-            <form method="post" action="#" class="login__form">
+            <form method="post" action="#" class="login__form" enctype="multipart/form-data">
                 <input type="text" name="login" placeholder="Login" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="password" name="password-second" placeholder="Repeat password" required>
+
                 <input type="text" name="name" placeholder="Name" required>
                 <input type="email" name="email" placeholder="Email" required>
+
+                <input type="file" name="user_file" required>
+
                 <input type="submit" value="Sing up">
             </form>
 
@@ -108,11 +115,14 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
             else if($rezult === null) {
 
             }
-            else if($rezult === false) {
-                echo '<div style="color: red">Please, change Name</div>';
+            else if($rezult === -1) {
+                echo '<div style="color: red">Please, change Login</div>';
             }
             else if($rezult === 'password') {
                 echo '<div style="color: red">Passwords do not match</div>';
+            }
+            else if($rezult === 'key') {
+                echo '<div style="color: red">File is empty</div>';
             }
             ?>
 

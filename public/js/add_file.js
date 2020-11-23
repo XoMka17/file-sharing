@@ -111,15 +111,6 @@ $(window).on('load', function() {
                             console.log(data);
                         }
                     });
-
-
-
-
-                    // console.log(verify(publicKey,value,user_file));
-
-                    // verify(publicKey,value,user_file).then(function (value) {
-                    //     console.log("Result: " + value);
-                    // });
                 });
             },'user-file');
 

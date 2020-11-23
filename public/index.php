@@ -15,7 +15,6 @@ if($blocks) {
         <th>Timestamp</th>
         <th>User</th>
         <th>File Name</th>
-        <th>Signature</th>
         <th>Previous Hash</th>
         <th>Hash</th>
         <th>Action</th>
@@ -39,12 +38,12 @@ if($blocks) {
                 echo '<td>genesis</td>';
             }
             else {
-                echo '<td>' . $UserManager->get_user_by_id($blocks[$i]->user)['name'] . '</td>';
+                echo '<td>' . $UserManager->getUserByID($blocks[$i]->user)['name'] . '</td>';
             }
         }
 
         echo '<td>' . $blocks[$i]->fileName . '</td>';
-        echo '<td>' . $blocks[$i]->signature . '</td>';
+//        echo '<td>' . $blocks[$i]->signature . '</td>';
 
         // !Todo Нужна дата на час вперёд (main.js line 102)
         echo '<td>' . $blocks[$i]->previousHash . '</td>';
@@ -61,6 +60,15 @@ if($blocks) {
 	</g>
 </svg>
 </a>';
+            echo '<span title="Check signature" class="j-check-signature" data-index="' . $i . ' " data-userID="' . $blocks[$i]->user . ' " data-signature="' . $blocks[$i]->signature . ' ">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 26 26" style="enable-background:new 0 0 26 26;" xml:space="preserve" width="20px">
+	<g>
+		<path style="fill:#030104;" d="M18,13c0,1.656-1.344,3-3,3h-4c-1.656,0-3-1.344-3-3V3c0-1.657,1.344-3,3-3h4c1.656,0,3,1.343,3,3 V13z"/>
+		<path style="fill:#030104;" d="M15.209,19.02c-2.205,2.206-2.178,2.2-4.379,0l-6.568-6.568C3.055,11.241,3.332,11,4.742,11h16.561 c1.273,0,1.684,0.241,0.476,1.451L15.209,19.02z"/>
+		<path style="fill:#030104;" d="M24,19v4c0,0.551-0.448,1-1,1H3c-0.552,0-1-0.449-1-1v-4H0v4c0,1.656,1.344,3,3,3h20 c1.656,0,3-1.344,3-3v-4H24z"/>
+	</g>
+</svg>
+</span>';
         }
         echo '</td>';
         echo '</tr>';
@@ -107,5 +115,7 @@ if($blocks) {
 
 <script src="./js/digital_signature.js"></script>
 <script src="./js/add_file.js"></script>
+<script src="./js/check_signature.js"></script>
+
 </body>
 </html>

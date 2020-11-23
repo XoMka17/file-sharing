@@ -12,24 +12,25 @@ class UserManager
         $this->DB = new DB();
     }
 
-    public function create_user($login, $pass, $name, $email) {
+    public function createUser($login, $pass, $name, $email, $key_public) {
 
-        if($this->check_user($login)) {
-            return false;
+        if($this->checkUser($login)) {
+            return -1;
         }
 
         return $this->DB->write(
             'users',
             [
-                'login'     => $login,
+                'login'    => $login,
                 'password' => $pass,
                 'name'     => $name,
-                'email'    => $email
+                'email'    => $email,
+                'key_public'      => $key_public
             ]
         );
     }
 
-    public function check_user($login) {
+    public function checkUser($login) {
         $rezult = $this->DB->select(
             'users',
             [
@@ -43,7 +44,7 @@ class UserManager
         return false;
     }
 
-    public function get_user_by_id($id) {
+    public function getUserByID($id) {
         $rezult = $this->DB->select(
             'users',
             [
