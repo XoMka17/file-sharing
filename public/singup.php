@@ -17,7 +17,7 @@ if(isset($_POST['login']) && isset($_POST['password']) && isset($_POST['password
         $rezult = 'key';
     }
     else {
-        $rezult = $userManager->createUser($_POST['login'],$_POST['password'],$_POST['name'],$_POST['email'], $key_public);
+        $rezult = $userManager->createUser($_POST['login'],$_POST['password'],$_POST['name'],$_POST['email'], $key_public, 0);
     }
 }
 ?>

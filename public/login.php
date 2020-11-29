@@ -5,17 +5,16 @@ if($_SESSION['logged'] === true) {
     header("Location: /");
 }
 
-
 require_once 'UserManager.php';
 
 $userManager = new UserManager();
 
-$rezult = null;
+$rezult = -1;
 
 if(isset($_POST['login']) && isset($_POST['password'])) {
     $rezult = $userManager->login($_POST['login'],$_POST['password']);
 
-    if($rezult === true) {
+    if($rezult === true || $rezult === "1") {
         $_SESSION['logged'] = true;
         $_SESSION['user_id'] = $userManager->getUserID();
 
@@ -110,6 +109,9 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
             <?php
             if($rezult === false) {
                 echo '<div style="color: red">Login or password not corrent</div>';
+            }
+            else if($rezult === null || $rezult === 0) {
+                echo '<div style="color: red">User hasn\'t been allow. Please, contact with Administrator</div>';
             }
             ?>
 

@@ -1,33 +1,5 @@
 $(window).on('load', function() {
 
-    // $('.j-add-form').attr('action','');
-
-    $('.j-add-form').submit(function(e){
-        e.preventDefault();
-
-        if($('.j-user-file').val() && $('.j-user-key').val()) {
-            sendFile();
-        }
-    });
-
-    $('.j-save-keys').click(function (){
-        saveKeys();
-    });
-
-    function saveKeys() {
-        var keys = generateKey();
-
-        keys.then(function(value) {
-            var privateKey = value.privateKey;
-            var publicKey = value.publicKey;
-
-            download(JSON.stringify(privateKey), 'key_private', 'text/plain');
-            download(JSON.stringify(publicKey), 'key_public', 'text/plain');
-        });
-    }
-
-
-
     $('.j-user-file').change(function () {
         if( $(this).val().length > 0 ) {
             $('.j-user-key-container').addClass('is-active');
@@ -47,6 +19,14 @@ $(window).on('load', function() {
         }
     });
 
+    $('.j-add-form').submit(function(e){
+        e.preventDefault();
+
+        if($('.j-user-file').val() && $('.j-user-key').val()) {
+            sendFile();
+        }
+    });
+
     function sendFile() {
         var file_name = '';
         var file_data = '';
@@ -54,15 +34,7 @@ $(window).on('load', function() {
         getFile(function (file_private_key,name) {
             var private_key = JSON.parse(file_private_key);
 
-            getFile(function (file_data,name) {
-
-                file_name = name;
-                // file_data = bin2hex(file_data);
-                // file_data = toUnicode(file_data);
-                // file_data = btoa(file_data);
-                // file_data = strEncodeUTF16(file_data);
-
-
+            getFile(function (file_data,file_name) {
 
                 sign(private_key,file_data).then(function (signature) {
 
@@ -78,15 +50,22 @@ $(window).on('load', function() {
                             console.log(file_data);
                             console.log(signature);
                             console.log(data);
+
+                            if(data == "1") {
+                                console.log("reload");
+                                document.location.reload();
+                            }
+                            else {
+                                alert("Error: file haven't been upload");
+                            }
                         }
                     });
                 });
             },'user-file',"readAsDataURL");
-
         },'user-key');
     }
 
-    function getFile(callback, inputID, readType, encoding = "UTF-8") {
+    function getFile(callback, inputID, readType) {
         var file = document.getElementById(inputID).files[0];
 
         if (file) {
@@ -96,7 +75,7 @@ $(window).on('load', function() {
                 reader.readAsDataURL(file);
             }
             else {
-                reader.readAsText(file, encoding);
+                reader.readAsText(file,"UTF-8");
             }
 
             reader.onload = function (evt) {
@@ -107,13 +86,5 @@ $(window).on('load', function() {
                 callback(false);
             }
         }
-    }
-
-    function download(content, fileName, contentType) {
-        var a = document.createElement("a");
-        var file = new Blob([content], {type: contentType});
-        a.href = URL.createObjectURL(file);
-        a.download = fileName;
-        a.click();
     }
 });

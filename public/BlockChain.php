@@ -8,31 +8,27 @@ class BlockChain
      * BlockChain constructor.
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->serverUrl = 'http://192.168.10.1';
     }
 
-    public function addFile($file_name, $file_content, $signature, $user_id) {
-
-//        var_dump($file_name);
-//        var_dump($file_content);
-//        var_dump($signature);
-
-//        $block_content = bin2hex($file_content);
-
+    public function addFile($file_name, $file_content, $signature, $user_id)
+    {
         $this->addBlock($file_name, $file_content, $signature, $user_id);
     }
 
     /**
      * @param $data
      */
-    public function addBlock($file_name, $data, $signature, $user_id) {
+    public function addBlock($file_name, $data, $signature, $user_id)
+    {
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, $this->serverUrl . '/mineBlock');
         curl_setopt($curl, CURLOPT_PORT, 3001);
         curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, '{"data" : "' . $data . '", "fileName" : "'. $file_name . '", "signature" : "'. $signature . '", "user" : "'. $user_id . '"}');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, '{"data" : "' . $data . '", "fileName" : "' . $file_name . '", "signature" : "' . $signature . '", "user" : "' . $user_id . '"}');
 
         $headers = array();
         $headers[] = 'Content-Type: application/json';
@@ -49,17 +45,16 @@ class BlockChain
      * @param $id
      * @return array
      */
-    public function getFile($id) {
+    public function getFile($id)
+    {
         $file_content = '';
         $file_name = '';
         $blocks = $this->getBlocks();
 
-        if($blocks) {
+        if ($blocks) {
             $file_name = $blocks[$id]->fileName;
             $file_content = $blocks[$id]->data;
         }
-
-//        $file_content = hex2bin($file_content);
 
         return ['fileName' => $file_name, 'fileData' => $file_content];
     }
@@ -67,7 +62,8 @@ class BlockChain
     /**
      * @return mixed
      */
-    public function getBlocks() {
+    public function getBlocks()
+    {
 
         $curl = curl_init();
 
@@ -94,12 +90,12 @@ class BlockChain
      * @param $id
      * @return bool
      */
-    public function checkID($id) {
-
+    public function checkID($id)
+    {
         foreach ($this->getBlocks() as $block) {
             $block_id = $this->getID($block->data);
 
-            if($id == $block_id) {
+            if ($id == $block_id) {
                 return true;
             }
         }
@@ -107,22 +103,24 @@ class BlockChain
         return false;
     }
 
-    public function getHEX( $valLength ) {
+    public function getHEX($valLength)
+    {
         $result = '';
         $moduleLength = 40;   // we use sha1, so module is 40 chars
-        $steps = round(($valLength/$moduleLength) + 0.5);
+        $steps = round(($valLength / $moduleLength) + 0.5);
 
-        for( $i = 0; $i < $steps; $i++ ) {
-            $result .= sha1( uniqid() . md5( rand() . uniqid() ) );
+        for ($i = 0; $i < $steps; $i++) {
+            $result .= sha1(uniqid() . md5(rand() . uniqid()));
         }
 
-        return substr( $result, 0, $valLength );
+        return substr($result, 0, $valLength);
     }
 
     /**
      * @return mixed
      */
-    public function getPeers() {
+    public function getPeers()
+    {
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, $this->serverUrl . '/peers');
@@ -140,6 +138,7 @@ class BlockChain
         return json_decode($result);
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
     }
 }

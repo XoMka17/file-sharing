@@ -8,69 +8,77 @@ class UserManager
     private $DB = '';
     private $userID = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->DB = new DB();
     }
 
-    public function createUser($login, $pass, $name, $email, $key_public) {
+    public function createUser($login, $pass, $name, $email, $key_public, $allowed)
+    {
 
-        if($this->checkUser($login)) {
+        if ($this->checkUser($login)) {
             return -1;
         }
 
         return $this->DB->write(
             'users',
             [
-                'login'    => $login,
-                'password' => $pass,
-                'name'     => $name,
-                'email'    => $email,
-                'key_public'      => $key_public
+                'login'      => $login,
+                'password'   => $pass,
+                'name'       => $name,
+                'email'      => $email,
+                'key_public' => $key_public,
+                'allowed'    => $allowed
             ]
         );
     }
 
-    public function checkUser($login) {
+    public function checkUser($login)
+    {
         $rezult = $this->DB->select(
             'users',
             [
-                'login'     => $login,
+                'login' => $login,
             ]
         );
 
-        if(is_array($rezult)) {
+        if (is_array($rezult)) {
             return true;
         }
         return false;
     }
 
-    public function getUserByID($id) {
+    public function getUserByID($id)
+    {
         $rezult = $this->DB->select(
             'users',
             [
-                'id'     => $id,
+                'id' => $id,
             ]
         );
 
-        if(is_array($rezult)) {
+        if (is_array($rezult)) {
             return $rezult[0];
         }
         return false;
     }
 
-    public function login($login,$password) {
+    public function login($login, $password)
+    {
 
         $rezult = $this->DB->select(
             'users',
             [
-                'login'     => $login,
+                'login'    => $login,
                 'password' => $password
             ]
         );
 
-        if(is_array($rezult)) {
+        if (is_array($rezult)) {
             $this->userID = $rezult[0]['id'];
-            return true;
+
+            return $rezult[0]['allowed'];
+
         }
         return false;
     }

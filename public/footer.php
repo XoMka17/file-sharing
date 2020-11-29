@@ -5,6 +5,7 @@
 <script src="./js/popup.js"></script>
 
 <script src="./js/digital_signature.js"></script>
+<script src="./js/save_keys.js"></script>
 <script src="./js/add_file.js"></script>
 <script src="./js/check_signature.js"></script>
 

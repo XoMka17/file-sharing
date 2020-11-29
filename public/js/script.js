@@ -4,7 +4,5 @@ $(window).on('load', function() {
 
         var index = button.attr('data-index');
         var signature = button.attr('data-signature');
-
-
     });
 });

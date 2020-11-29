@@ -11,7 +11,8 @@ class DB
     private $mysqli = '';
 
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->db_host = getenv('DB_HOST');
         $this->db_name = getenv('DB_NAME');
@@ -28,7 +29,8 @@ class DB
         $this->create_table('users');
     }
 
-    public function create_table($table_name) {
+    public function create_table($table_name)
+    {
         $sql = 'CREATE TABLE IF NOT EXISTS ' . $table_name . ' (
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
@@ -39,33 +41,35 @@ class DB
 
         $rez = $this->make_query($sql);
 
-        if($rez !== true) {
+        if ($rez !== true) {
             echo $rez;
         }
     }
 
-    public function select($table_name, $args) {
+    public function select($table_name, $args)
+    {
 
         $where = '';
         foreach ($args as $key => $value) {
-            if($where) {
+            if ($where) {
                 $where .= ' AND ';
             }
 
             $where .= $key . '=';
-            $where  .= '\'' . $value . '\'';
+            $where .= '\'' . $value . '\'';
         }
 
         $sql = "SELECT * FROM `$table_name` WHERE $where";
 
         $rez = $this->make_query($sql);
 
-        if($rez !== true) {
+        if ($rez !== true) {
             return $rez;
         }
     }
 
-    public function write($table_name, $args) {
+    public function write($table_name, $args)
+    {
 
         $columns = '`id`';
         $values = 'NULL';
@@ -73,14 +77,14 @@ class DB
         foreach ($args as $key => $value) {
 
             $columns .= ', `' . $key . '`';
-            $values  .= ', \'' . $value . '\'';
+            $values .= ', \'' . $value . '\'';
         }
 
         $sql = "INSERT INTO `$table_name` ($columns) VALUES ($values)";
 
         $rez = $this->make_query($sql);
 
-        if($rez !== true) {
+        if ($rez !== true) {
             return $rez;
         }
 
@@ -88,13 +92,13 @@ class DB
 
     }
 
-    private function make_query($sql) {
+    private function make_query($sql)
+    {
         $res = $this->mysqli->query($sql);
 
         if ($res === true) {
             return true;
-        }
-        elseif($res->num_rows) {
+        } elseif ($res->num_rows) {
             $rows = array();
 
             for ($row_no = $res->num_rows - 1; $row_no >= 0; $row_no--) {
@@ -104,13 +108,13 @@ class DB
             }
 
             return $rows;
-        }
-        else {
+        } else {
             return $this->mysqli->error;
         }
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->mysqli->close();
     }
 }
