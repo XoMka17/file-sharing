@@ -5,6 +5,8 @@ require_once 'BlockChain.php';
 
 $BlockChain = new BlockChain();
 
+//$_POST['file_data'] = json_encode($_POST['file_data']);
+
 
 $BlockChain->addFile($_POST['file_name'], $_POST['file_data'], $_POST['signature'], $_SESSION['user_id']);
 

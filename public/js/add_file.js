@@ -5,46 +5,10 @@ $(window).on('load', function() {
     $('.j-add-form').submit(function(e){
         e.preventDefault();
 
-        var file_name = '';
-        var file_path = '';
-
-
-        $('.j-user-file').val();
-        $('.j-user-file').val();
-
-        console.log(file_name);
-        console.log(file_path);
-
-
-
-        // $.ajax({
-        //     url: '../add.php',
-        //     data: {
-        //         file_name: file_name,
-        //         file_path: file_path,
-        //     },
-        //     processData: false,
-        //     contentType: false,
-        //     type: 'POST',
-        //     success: function (data) {
-        //         console.log(data);
-        //     }
-        // });
+        if($('.j-user-file').val() && $('.j-user-key').val()) {
+            sendFile();
+        }
     });
-
-
-    // $('.j-add1').click(function (){
-    //     $.ajax({
-    //         url: '../add.php',
-    //         type: 'post',
-    //         data: {file_name:'file.docx'},
-    //         success: function(response){
-    //             console.log(response)
-    //
-    //         }
-    //     });
-    // });
-
 
     $('.j-save-keys').click(function (){
         saveKeys();
@@ -70,15 +34,16 @@ $(window).on('load', function() {
         }
         else {
             $('.j-user-key-container').removeClass('is-active');
+            $('.j-submit-add').removeClass('is-active');
         }
     });
 
     $('.j-user-key').change(function () {
         if( $(this).val().length > 0 ) {
-            sendFile();
+            $('.j-submit-add').addClass('is-active');
         }
         else {
-
+            $('.j-submit-add').removeClass('is-active');
         }
     });
 
@@ -89,15 +54,17 @@ $(window).on('load', function() {
         getFile(function (file_private_key,name) {
             var private_key = JSON.parse(file_private_key);
 
-            getFile(function (user_file,name) {
+            getFile(function (file_data,name) {
 
                 file_name = name;
-                file_data = user_file;
+                // file_data = bin2hex(file_data);
+                // file_data = toUnicode(file_data);
+                // file_data = btoa(file_data);
+                // file_data = strEncodeUTF16(file_data);
 
-                sign(private_key,user_file).then(function (signature) {
 
-                    console.log(file_name);
-                    console.log(signature);
+
+                sign(private_key,file_data).then(function (signature) {
 
                     $.ajax({
                         url: '../add.php',
@@ -108,21 +75,29 @@ $(window).on('load', function() {
                         },
                         type: 'POST',
                         success: function (data) {
+                            console.log(file_data);
+                            console.log(signature);
                             console.log(data);
                         }
                     });
                 });
-            },'user-file');
+            },'user-file',"readAsDataURL");
 
         },'user-key');
     }
 
-    function getFile(callback, inputID) {
+    function getFile(callback, inputID, readType, encoding = "UTF-8") {
         var file = document.getElementById(inputID).files[0];
 
         if (file) {
             var reader = new FileReader();
-            reader.readAsText(file, "UTF-8");
+
+            if(readType == "readAsDataURL") {
+                reader.readAsDataURL(file);
+            }
+            else {
+                reader.readAsText(file, encoding);
+            }
 
             reader.onload = function (evt) {
                 callback(evt.target.result,file.name);

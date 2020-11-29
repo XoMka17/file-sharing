@@ -35,7 +35,7 @@ var blockchain = [getGenesisBlock()];
 
 var initHttpServer = () => {
     var app = express();
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({limit: "4096mb", extended: true, parameterLimit: 4000000}));
 
     app.get('/blocks', (req, res) => res.send(JSON.stringify(blockchain)));
     app.post('/mineBlock', (req, res) => {

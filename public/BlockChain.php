@@ -14,13 +14,13 @@ class BlockChain
 
     public function addFile($file_name, $file_content, $signature, $user_id) {
 
-        var_dump($file_name);
-        var_dump($file_content);
-        var_dump($signature);
+//        var_dump($file_name);
+//        var_dump($file_content);
+//        var_dump($signature);
 
-        $block_content = bin2hex($file_content);
+//        $block_content = bin2hex($file_content);
 
-        $this->addBlock($file_name, $block_content, $signature, $user_id);
+        $this->addBlock($file_name, $file_content, $signature, $user_id);
     }
 
     /**
@@ -59,7 +59,7 @@ class BlockChain
             $file_content = $blocks[$id]->data;
         }
 
-        $file_content = hex2bin($file_content);
+//        $file_content = hex2bin($file_content);
 
         return ['fileName' => $file_name, 'fileData' => $file_content];
     }

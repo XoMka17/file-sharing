@@ -103,6 +103,8 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
                 <input type="text" name="name" placeholder="Name" required>
                 <input type="email" name="email" placeholder="Email" required>
 
+
+                <a class="header__nav-link j-save-keys" href="#">Save Keys</a>
                 <input type="file" name="user_file" required>
 
                 <input type="submit" value="Sing up">
@@ -133,6 +135,4 @@ c141 95 261 172 265 172 4 0 7 -94 7 -208 0 -224 2 -232 51 -232 55 0 59 18
     </div>
 </div>
 
-</body>
-</html>
-
+<?php include "footer.php"; ?>

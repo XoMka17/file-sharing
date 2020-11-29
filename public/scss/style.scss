@@ -178,13 +178,33 @@ a {
 
   }
 
+  &__row {
+    margin-bottom: 25px;
+
+    transition: 1s all;
+
+  }
+
+  &__label {
+    margin-bottom: 5px;
+
+  }
+
   &__upload-key {
-    display: block;
+    display: none;
 
     &.is-active {
       display: block;
     }
 
+  }
+
+  &__submit {
+    display: none;
+
+    &.is-active {
+      display: block;
+    }
   }
 }
 
