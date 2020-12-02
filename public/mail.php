@@ -4,8 +4,7 @@ $subject = 'the subject';
 $message = 'hello';
 $headers = array(
     'From' => 'nazar.10.17k@gmail.com',
-    'Reply-To' => 'nazar.10.17k@gmail.com'
 );
-
+mail($to, $subject, $message, $headers);
 var_dump(mail($to, $subject, $message, $headers));
 ?>

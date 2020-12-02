@@ -11,6 +11,7 @@ services:
             - blockchain-network
         links:
             - node1:node1
+            - maildev:maildev
 
     nginx:
         image: atillay/lemp-nginx
@@ -24,6 +25,7 @@ services:
             - ./public:/var/www/public
         links:
             - node1:node1
+            - maildev:maildev
 
     mysql:
         image: mysql:5.7
@@ -49,6 +51,7 @@ services:
 
     maildev:
         image: djfarrelly/maildev
+        restart: always
         networks:
             - blockchain-network
         ports:

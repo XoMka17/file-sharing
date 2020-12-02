@@ -107,6 +107,10 @@ a {
     display: block;
   }
 
+  * {
+    word-break: break-all;
+  }
+
   &__container {
     z-index: 1;
 
