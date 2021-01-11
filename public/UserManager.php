@@ -48,6 +48,47 @@ class UserManager
         return false;
     }
 
+    public function getUsersEmailForNotification($senderID) {
+        $emails = false;
+
+        $users = $this->getUsers();
+
+        if($users !== false) {
+            $emails = array();
+            foreach ($users as $user) {
+                if($user['allowed'] == 1 && !in_array($user['email'], $emails) && $senderID != $user['id']) {
+                    array_push($emails,$user['email']);
+                }
+            }
+        }
+
+        return $emails;
+    }
+
+    public function getUsersEmail() {
+        $emails = false;
+
+        $users = $this->getUsers();
+
+        if($users !== false) {
+            $emails = array();
+            foreach ($users as $user) {
+                array_push($emails,$user['email']);
+            }
+        }
+
+        return $emails;
+    }
+
+    public function getUsers() {
+        $rezult = $this->DB->select('users');
+
+        if (is_array($rezult)) {
+            return $rezult;
+        }
+        return false;
+    }
+
     public function getUserByID($id)
     {
         $rezult = $this->DB->select(

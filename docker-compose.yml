@@ -1,6 +1,9 @@
 version: '3'
 services:
     php:
+#        build:
+#            context: ./.docker/app/php/
+#            dockerfile: Dockerfile
         image: atillay/lemp-php:7.3 # Also available : atillay/lemp-php:7.2
         env_file:
             - .env

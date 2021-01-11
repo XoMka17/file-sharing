@@ -46,20 +46,25 @@ class DB
         }
     }
 
-    public function select($table_name, $args)
+    public function select($table_name, $args = null)
     {
 
-        $where = '';
-        foreach ($args as $key => $value) {
-            if ($where) {
-                $where .= ' AND ';
+        if($args === null) {
+            $sql = "SELECT * FROM `$table_name`";
+        }
+        else {
+            $where = '';
+            foreach ($args as $key => $value) {
+                if ($where) {
+                    $where .= ' AND ';
+                }
+
+                $where .= $key . '=';
+                $where .= '\'' . $value . '\'';
             }
 
-            $where .= $key . '=';
-            $where .= '\'' . $value . '\'';
+            $sql = "SELECT * FROM `$table_name` WHERE $where";
         }
-
-        $sql = "SELECT * FROM `$table_name` WHERE $where";
 
         $rez = $this->make_query($sql);
 

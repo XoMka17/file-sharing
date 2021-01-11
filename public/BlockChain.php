@@ -140,5 +140,6 @@ class BlockChain
 
     public function __destruct()
     {
+
     }
 }

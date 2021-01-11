@@ -24,6 +24,8 @@ $(window).on('load', function() {
 
         if($('.j-user-file').val() && $('.j-user-key').val()) {
             sendFile();
+
+
         }
     });
 
